@@ -23,6 +23,7 @@ public class CreditCardFactory {
      */
     public CreditCardFactory (Properties properties) throws IOException {
         String certFilename = properties.getProperty("PublicKeyFilename");
+        System.out.println(certFilename);
         try {
             // Get the public key
             FileInputStream fis = new FileInputStream(certFilename);

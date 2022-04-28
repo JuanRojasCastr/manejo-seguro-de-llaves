@@ -71,6 +71,7 @@ public class DatabaseOperations {
     public void store(CreditCardDBO creditCardDBO)
             throws IOException {
         try {
+            System.out.println(mEncoder.encodeToString(creditCardDBO.getEncryptedSessionKey()));
             // Need to synchronize to prevent race conditions.
             synchronized(mConnection) {
                 mInsertCreditCard.setLong

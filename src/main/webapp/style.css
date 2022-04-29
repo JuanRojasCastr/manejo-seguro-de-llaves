@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fredoka:wght@500&family=Orbitron:wght@900&family=Poppins:wght@300;700&family=Righteous&family=Work+Sans:wght@500&display=swap');
+/* General Style */
+
+:root {
+    --brown: #b5936f;
+    --mid-borwn: #e2be99;
+    --mid-light-brown: #f1d7be;
+    --light-brown: #f6e4d3;
+}
+body{
+    font-family: 'Righteous', cursive;
+    font-family: 'Work Sans', sans-serif;
+    background-color: var(--light-brown);
+    color: rgb(0, 0, 0);
+    border-radius: 3%;
+    width: auto;
+}
+
+/* Header */
+.header{
+    background-color: var(--brown);
+    color: rgb(0, 0, 0);
+    border-radius: 10px;
+    position: sticky;
+    top:0;
+    left: 0;
+    z-index:100;
+    box-shadow: 0px 0px 3px var(--mid-borwn);
+    height: 55px;
+}
+.header span {
+    position: relative;
+    margin: 5px;
+    top: 34%;
+    left: 2%;
+    transform: translateY(-50%);
+    align-content: center;
+    display: inline-block;
+    text-shadow: 1px 1px 5px rgb(65, 65, 65);
+}
+.header p {
+    position: relative;
+    display: inline-block;
+    left: 2%;
+    text-shadow: 1px 1px 5px rgb(65, 65, 65);
+}
+
+/* Left Card */
+.card{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(210px, 2) 80px;
+    grid-template-areas: "image" "text" "stats";
+    
+    border-radius: 18px;
+    background-color: white;
+    box-shadow: 5px 5px 15px var(--brown);
+    text-align: center;
+    width:fit-content;
+    border-style: solid;
+    border-color: var(--mid-borwn);
+}
+.card-image img{
+    grid-area: image;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom-color: white;
+}
+.card-content{
+    border-style: solid;
+    box-shadow: 1px 1px 10px #aaa;
+    border-radius: 10px;
+    margin: 5px;
+    border-color: rgb(214, 213, 213);
+    margin-top: 10;
+}
+.card-text{
+    grid-area: text;
+    padding-top: 5px;
+}
+.card-location{
+    grid-area: stats;
+    color: #aaa;
+    background-color: white;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+
+/* Grid Config */
+
+.header { grid-area: header; grid-column: 1 / 5; grid-row: 1 / 1; }
+.side-info { grid-area: side; grid-column: 1; grid-row: 2; 
+    display: grid; justify-content: center;}
+.main-info { grid-area: main; grid-column:  2/ 5; grid-row: 2;}
+.footer { grid-area: footer; grid-column:  1 / 5; grid-row: 3;}
+.grid-container {
+    display: grid;
+    grid-gap: 20px;
+    grid-template: 55px 1fr 1fr / 1fr 1fr 1fr 1fr;
+}

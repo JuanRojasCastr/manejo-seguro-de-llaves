@@ -12,8 +12,6 @@
         <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3170/3170748.png"></link>
     </h:head>
     <h:body>
-        
-
         <div class="grid-container">
             <div class="grid-item header">
                 <span class="material-symbols-outlined">arrow_forward_ios</span>
@@ -34,20 +32,56 @@
                     </div>
             </div>
             <div class="grid-item main-info">
-                <h:form>
-                    <p style="background-color: red;">FORM</p>
-                </h:form>
+                <div class="form">
+                    <h3>Información</h3>
+                    <div class="input-container left-input">
+                        <input type="text" value="Juan Camilo" class="name" id=""></input><span>Nombres</span>
+                    </div>
+                    <div class="input-container right-input">
+                        <input type="text" value="Rojas Castro" id="" class=" last-name"></input><span>Apellidos</span>
+                    </div>
+                    <div class="input-container left-input">
+                        <input type="text" value="1000699013" class="id" id=""></input><span>N° Documento</span>
+                    </div>
+                    <div class="input-container right-input">
+                        <input type="text" value="Bogotá D.C - Colombia" class="location" id=""></input><span>Ubicacion</span>
+                    </div>
+                    <div class="input-container left-input">
+                        <input type="text" value="3007919287" class="phone" id=""></input><span>Teléfono</span>
+                    </div>
+                    <div class="input-container right-input">
+                        <input type="text" value="juan.rojas-castr@mail.escuelaing.edu.co" class="mail" id=""></input><span>Email</span>
+                    </div>
+                    <h3>Metodo de Pago</h3>
+                    <h:form class="main-form">
+                        <div class="main-container">
+                            <img class="logo" src="img\creditcard.png" width="320" height="195"></img>
+                            <div class="main-input-1">
+                                <h:inputText value="#{userBean.username}" class="input input-style" required="true" name="Titular" />
+                            </div>
+                            <div class="main-input-2">
+                                <h:inputText value="#{userBean.username}" class="input input-style" required="true" name="Número de tarjeta" />
+                            </div>
+                            <div class="main-input-3">
+                                <h:inputText value="#{userBean.username}" class="input input-style" required="true" name="Fecha de expiración" />
+                            </div>
+                            <div class="main-input-3">
+                                <h:inputText value="#{userBean.username}" class="input input-style" required="true" name="Código de seguriadd" />
+                            </div>
+                            <div class="main-input-4">
+                                <h:inputText value="#{userBean.username}" class="input input-style" required="true" name="Tipo de documento" />
+                            </div>
+                            <div class="main-input-4">
+                                <h:inputText value="#{userBean.username}" class="input input-style" required="true" name="Número de documento" />
+                            </div>
+                            <h:commandButton value="ACCEDER" action="#{userBean.ingresarSesion()}" class="button" />
+                        </div>
+                    </h:form>
+                </div>
             </div>
             <div class="grid-item footer">
                 <p style="background-color: black; color: azure;" >FOOTER</p>
             </div>
         </div>
-        <!-- <h:form>
-            <h:panelGrid columns="1" render="true">
-                <h:panelGroup style="background-color: aqua;">
-                            <h1>Flujo Manejo seguro de llaves</h1>
-                </h:panelGroup>
-            </h:panelGrid>
-        </h:form> -->
     </h:body>
 </html>

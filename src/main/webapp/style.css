@@ -7,8 +7,10 @@
     --mid-light-brown: #f1d7be;
     --light-brown: #f6e4d3;
 }
-body{
+* {
     font-family: 'Righteous', cursive;
+}
+body{
     font-family: 'Work Sans', sans-serif;
     background-color: var(--light-brown);
     color: rgb(0, 0, 0);
@@ -54,11 +56,13 @@ body{
     
     border-radius: 18px;
     background-color: white;
-    box-shadow: 5px 5px 15px var(--brown);
+    box-shadow: 1px 1px 15px var(--brown);
     text-align: center;
     width:fit-content;
     border-style: solid;
     border-color: var(--mid-borwn);
+    border-width: 5px;
+    height: fit-content;
 }
 .card-image img{
     grid-area: image;
@@ -89,12 +93,101 @@ body{
 }
 
 
+/* Main Card */
+.form{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: repeat(1fr, 8);
+    grid-gap: 10px;
+    border-radius: 18px;
+    background-color: white;
+    box-shadow: 1px 1px 15px var(--brown);
+    border-style: solid;
+    border-color: var(--mid-borwn);
+    justify-items: left;
+    border-width: 5px;
+}
+.form h3{
+    grid-template-rows: 5;
+    left: 10%;
+    position: relative;
+    justify-self: left;
+    text-shadow: 1px 1px 5px var(--brown);
+    color: black;
+}
+.form .input-container{
+    left: 15%;
+    position: relative;
+}
+.form .left-input{
+    grid-column: 1;
+}
+.form .right-input{
+    grid-column: 2;
+}
+.form input{
+    margin: 10px;
+    padding: 5px;
+    height: 80%;
+    width: 250px;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: var(--brown);
+    box-shadow: 1px 1px 10px var(--mid-borwn);
+}
+.form span {
+    font-size: 12px;
+    position: absolute;
+    left: 20px;
+    z-index: 20;
+    background-color: white;
+    color: var(--brown);
+    text-shadow: 1px 1px 10px var(--mid-borwn);
+    margin: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+/* Grilla main form */
+.main-container{
+    display: grid;
+    grid-gap: 20px;
+    grid-template: repeat(20%, 5) / 50% 50%;
+    align-items: center;
+}
+.main-form{
+    grid-row: 6 / 9;
+    grid-column: 1 / 3;
+    width: 100%;
+}
+.main-container img{
+    grid-column: 2;
+    grid-row: 1 / 6;
+}
+.main-input-1{
+    grid-column: 1;
+    grid-row: 1;
+}
+.main-input-2{
+    grid-column: 1;
+    grid-row: 2;
+}
+.main-input-3{
+    grid-column: 1;
+    grid-row: 3;
+}
+.main-input-4{
+    grid-column: 1;
+    grid-row: 4;
+}
+.button{
+    grid-column: 1;
+}
 /* Grid Config */
-
 .header { grid-area: header; grid-column: 1 / 5; grid-row: 1 / 1; }
 .side-info { grid-area: side; grid-column: 1; grid-row: 2; 
     display: grid; justify-content: center;}
-.main-info { grid-area: main; grid-column:  2/ 5; grid-row: 2;}
+.main-info { grid-area: main; grid-column:  2/ 5; grid-row: 2;
+     padding-right: 10%; padding-left: 10%;}
 .footer { grid-area: footer; grid-column:  1 / 5; grid-row: 3;}
 .grid-container {
     display: grid;

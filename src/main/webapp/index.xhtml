@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="stylesheet" href="style.css"></link>
     <h:head>
-        <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3170/3170748.png"></link>
+        <link rel="icon" type="image/png" href="https://media.discordapp.net/attachments/692121020978692108/969777841438871552/3170748.png"></link>
     </h:head>
     <h:body>
         <div class="grid-container">
@@ -56,31 +56,37 @@
                     <h:form class="main-form">
                         <div class="main-container">
                             <img class="logo" src="img\creditcard.png" width="320" height="195"></img>
-                            <div class="main-input-1">
-                                <h:inputText value="#{userBean.username}" class="input input-style" required="true" name="Titular" />
+                            <div class="main-input-1 input">
+                                <h:inputText value="#{cardBean.username}" class="input-style" required="true" name="Titular"/><span>Titular</span>
                             </div>
-                            <div class="main-input-2">
-                                <h:inputText value="#{userBean.username}" class="input input-style" required="true" name="Número de tarjeta" />
+                            <div class="main-input-2 input">
+                                <h:inputText value="#{cardBean.username}" class="input-style" required="true" name="Número de tarjeta" /><span>Número de tarjeta</span>
                             </div>
-                            <div class="main-input-3">
-                                <h:inputText value="#{userBean.username}" class="input input-style" required="true" name="Fecha de expiración" />
+                            <div class="content-line-3">
+                                <div class="main-input-3 input">
+                                    <h:inputText value="#{cardBean.username}" class="input-style" required="true" name="Expiración" /><span>Expiración</span>
+                                </div>
+                                <div class="main-input-3 input second">
+                                    <h:inputText value="#{cardBean.username}" class="input-style reduced" required="true" name="CVV" /><span>CVV</span>
+                                </div>
                             </div>
-                            <div class="main-input-3">
-                                <h:inputText value="#{userBean.username}" class="input input-style" required="true" name="Código de seguriadd" />
+                            <div class="content-line-4">
+                                <div class="main-input-4 input">
+                                    <h:inputText value="#{cardBean.username}" class="input-style reduced" required="true" name="Tipo" /><span>Tipo</span>
+                                </div>
+                                <div class="main-input-4 input second">
+                                    <h:inputText value="#{cardBean.username}" class="input-style" required="true" name="Número de documento" /><span>Número de documento</span>
+                                </div>
                             </div>
-                            <div class="main-input-4">
-                                <h:inputText value="#{userBean.username}" class="input input-style" required="true" name="Tipo de documento" />
-                            </div>
-                            <div class="main-input-4">
-                                <h:inputText value="#{userBean.username}" class="input input-style" required="true" name="Número de documento" />
-                            </div>
-                            <h:commandButton value="ACCEDER" action="#{userBean.ingresarSesion()}" class="button" />
+                            <h:commandButton value="Guardar" action="#{cardBean.ingresarSesion()}" class="button" />
                         </div>
                     </h:form>
                 </div>
             </div>
             <div class="grid-item footer">
-                <p style="background-color: black; color: azure;" >FOOTER</p>
+                <div class="footer-container">
+                    <p>© Manejo seguro de llaves SPTI 2020 - Francisco Javier Rojas - Juan Camilo Rojas - Juan Pablo Espinosa</p>
+                </div>
             </div>
         </div>
     </h:body>

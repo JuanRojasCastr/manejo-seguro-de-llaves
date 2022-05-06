@@ -1,4 +1,4 @@
-package spti.cryptographicKeys.basics;
+package spti.cryptographicKeys.basicInfoCrypo;
 // InfoProveedores.java
 import java.security.*;
 import java.util.*;

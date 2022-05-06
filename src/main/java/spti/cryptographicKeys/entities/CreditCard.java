@@ -1,4 +1,4 @@
-package spti.cryptographicKeys;
+package spti.cryptographicKeys.entities;
 /**
  *  Read-only Credit Card object.
  */
@@ -11,7 +11,7 @@ public class CreditCard {
      *  Constructor is protected, as CreditCards should
      *  only be created from the CreditCardFactory.
      */
-    protected CreditCard(long accountID, String creditCardNumber) {
+    public CreditCard(long accountID, String creditCardNumber) {
         mAccountID = accountID;
         mCreditCardNumber = creditCardNumber;
     }

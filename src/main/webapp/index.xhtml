@@ -60,22 +60,22 @@
                                 <h:inputText value="#{cardBean.username}" class="input-style" required="true" name="Titular"/><span>Titular</span>
                             </div>
                             <div class="main-input-2 input">
-                                <h:inputText value="#{cardBean.username}" class="input-style" required="true" name="Número de tarjeta" /><span>Número de tarjeta</span>
+                                <h:inputText value="#{cardBean.numbercard}" class="input-style" required="true" name="Número de tarjeta" /><span>Número de tarjeta</span>
                             </div>
                             <div class="content-line-3">
                                 <div class="main-input-3 input">
-                                    <h:inputText value="#{cardBean.username}" class="input-style" required="true" name="Expiración" /><span>Expiración</span>
+                                    <h:inputText value="#{cardBean.expiration}" class="input-style" required="true" name="Expiración" /><span>Expiración</span>
                                 </div>
                                 <div class="main-input-3 input second">
-                                    <h:inputText value="#{cardBean.username}" class="input-style reduced" required="true" name="CVV" /><span>CVV</span>
+                                    <h:inputText value="#{cardBean.cvv}" class="input-style reduced" required="true" name="CVV" /><span>CVV</span>
                                 </div>
                             </div>
                             <div class="content-line-4">
                                 <div class="main-input-4 input">
-                                    <h:inputText value="#{cardBean.username}" class="input-style reduced" required="true" name="Tipo" /><span>Tipo</span>
+                                    <h:inputText value="#{cardBean.type}" class="input-style reduced" required="true" name="Tipo" /><span>Tipo</span>
                                 </div>
                                 <div class="main-input-4 input second">
-                                    <h:inputText value="#{cardBean.username}" class="input-style" required="true" name="Número de documento" /><span>Número de documento</span>
+                                    <h:inputText value="#{cardBean.numeroDocumento}" class="input-style" required="true" name="Número de documento" /><span>Número de documento</span>
                                 </div>
                             </div>
                             <h:commandButton value="Guardar" action="#{cardBean.ingresarSesion()}" class="button" />

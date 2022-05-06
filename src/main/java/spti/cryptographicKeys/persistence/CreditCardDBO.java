@@ -1,4 +1,4 @@
-package spti.cryptographicKeys.services;
+package spti.cryptographicKeys.persistence;
 
 /**
  * Credit Card DataBase Object

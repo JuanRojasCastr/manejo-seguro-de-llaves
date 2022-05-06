@@ -215,6 +215,9 @@ input:focus{
     background-color: var(--brown);
     bottom: 10px;
 }
+.button:hover{
+    cursor: pointer;
+}
 .main-form .reduced{
     width: 100px;
 }

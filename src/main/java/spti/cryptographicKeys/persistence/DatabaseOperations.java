@@ -4,8 +4,6 @@ package spti.cryptographicKeys.persistence;
 //import java.util.Base64.Decoder;
 //import java.util.Base64.Encoder;
 
-import spti.cryptographicKeys.services.CreditCardDBO;
-
 import java.io.*;
 import java.sql.*;
 import java.util.*;

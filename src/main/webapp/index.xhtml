@@ -53,33 +53,52 @@
                         <input type="text" value="juan.rojas-castr@mail.escuelaing.edu.co" class="mail" id=""></input><span>Email</span>
                     </div>
                     <h3>Metodo de Pago</h3>
-                    <h:form class="main-form">
-                        <div class="main-container">
-                            <img class="logo" src="img\creditcard.png" width="320" height="195"></img>
-                            <div class="main-input-1 input">
-                                <h:inputText value="#{cardBean.username}" class="input-style" required="true" name="Titular"/><span>Titular</span>
-                            </div>
-                            <div class="main-input-2 input">
-                                <h:inputText value="#{cardBean.numbercard}" class="input-style" required="true" name="Número de tarjeta" /><span>Número de tarjeta</span>
-                            </div>
-                            <div class="content-line-3">
-                                <div class="main-input-3 input">
-                                    <h:inputText value="#{cardBean.expiration}" class="input-style" required="true" name="Expiración" /><span>Expiración</span>
-                                </div>
-                                <div class="main-input-3 input second">
-                                    <h:inputText value="#{cardBean.cvv}" class="input-style reduced" required="true" name="CVV" /><span>CVV</span>
+                    <h:form class="button-container">
+                        <p:repeat value="#{cardBean.cardList}" var="card">
+                            <div class="card-repeat">
+                                <img class="logo" src="img\credit-card-icon.png" width="95" height="80"> </img>
+                                <div class="card-details">
+                                    <div > **** **** **** **** #{cardBean.getSubstring(card.creditCardNumber)}</div>
+                                    <div > Documento Asociado: #{card.accountID}</div>
+                                    <div > Fecha de expiración: #{card.date}</div>
                                 </div>
                             </div>
-                            <div class="content-line-4">
-                                <div class="main-input-4 input">
-                                    <h:inputText value="#{cardBean.type}" class="input-style reduced" required="true" name="Tipo" /><span>Tipo</span>
-                                </div>
-                                <div class="main-input-4 input second">
-                                    <h:inputText value="#{cardBean.numeroDocumento}" class="input-style" required="true" name="Número de documento" /><span>Número de documento</span>
-                                </div>
-                            </div>
-                            <h:commandButton value="Guardar" action="#{cardBean.ingresarCard()}" class="button" />
-                        </div>
+                        </p:repeat>
+                        <h:commandButton class="button" value="+ Añadir metodo de pago" icon="ui-icon-adds" onclick="PF('dlg1').show(); return false" />    
+                        <p:dialog widgetVar="dlg1" style="width:50% !important; height:40%">
+
+                            <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">
+
+                                <f:facet name="header">
+                                    <h:outputLabel value="Rellene los datos"/>
+                                </f:facet>
+
+                                <h:form class="main-form">
+                                    <div class="main-container">
+                                        <img class="logo" src="img\creditcard.png" width="320" height="195"></img>
+                                        <div class="main-input-1 input">
+                                            <h:inputText value="#{cardBean.username}" class="input-style" required="true" name="Titular"/><span>Titular</span>
+                                        </div>
+                                        <div class="main-input-2 input">
+                                            <h:inputText value="#{cardBean.numbercard}" class="input-style" required="true" name="Número de tarjeta" /><span>Número de tarjeta</span>
+                                        </div>
+                                        <div class="content-line-3">
+                                            <div class="main-input-3 input">
+                                                <h:inputText value="#{cardBean.expiration}" class="input-style reduced" required="true" name="Expiración" /><span>Expiración</span>
+                                            </div>
+                                            <div class="main-input-3 input second">
+                                                <h:inputText value="#{cardBean.cvv}" class="input-style reduced" required="true" name="CVV" /><span>CVV</span>
+                                            </div>
+                                        </div>
+                                        <div class="main-input-4 input second">
+                                            <h:inputText value="#{cardBean.numeroDocumento}" class="input-style" required="true" name="Número de documento" /><span>Número de documento</span>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </h:panelGrid>
+                            <p:separator/>
+                            <h:commandButton value="Guardar" action="#{cardBean.ingresarCard()}" class="button"/>
+                        </p:dialog>
                     </h:form>
                 </div>
             </div>

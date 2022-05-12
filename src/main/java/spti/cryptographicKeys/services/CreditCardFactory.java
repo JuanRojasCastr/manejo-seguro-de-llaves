@@ -17,6 +17,10 @@ public class CreditCardFactory {
     // Key to use to encrypt all new credit cards
     private PublicKey mPublicKey;
 
+    // default key and init vector for CBC mode encryption
+    private static final String initVector = "encryptionInitVector";
+    private static final String key = "aesEncryptionKey";
+
     // Handles all database calls
     private DatabaseOperations mDBOperations;
 
@@ -45,6 +49,68 @@ public class CreditCardFactory {
         // Create a new DatabaseOperations instance for
         // database calls.
         mDBOperations = new DatabaseOperations(properties);
+    }
+
+
+    /**
+     * Create a credit card with AES encryption and using a public key, then stores it in the database
+     * @param accountID id of the account
+     * @param creditCardNumber number of the credit card
+     * @return the credit card created
+     * @throws InvalidKeyException
+     * @throws IOException
+     */
+    public CreditCard createCreditCard2(long accountID, String creditCardNumber) throws InvalidKeyException, IOException {
+        CreditCardDBO creditCardDBO = null;
+        byte[] encryptedSessionKey, encryptedCCNumber;
+        encryptedSessionKey = null;
+        encryptedCCNumber = null;
+        try {
+            // Create a AES key and encrypt the credit card number.
+            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
+            KeyGenerator keygen = KeyGenerator.getInstance("AES");
+            SecureRandom sec = new SecureRandom(key.getBytes());
+            keygen.init(128, sec);
+            Key key = keygen.generateKey();
+            SecretKeySpec sessionKey = new SecretKeySpec(key.getEncoded(), "AES");
+
+            Cipher symmetricCipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            symmetricCipher.init(Cipher.ENCRYPT_MODE, sessionKey, iv);
+            encryptedCCNumber = symmetricCipher.doFinal(creditCardNumber.getBytes("UTF8"));
+
+            // Use the public key to encrypt the session key.
+            Cipher asymmetricCipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            asymmetricCipher.init(Cipher.ENCRYPT_MODE, mPublicKey);
+            encryptedSessionKey = asymmetricCipher.doFinal(sessionKey.getEncoded());
+
+            // Need to catch a large number of possible exceptions:
+        } catch (NoSuchAlgorithmException nsae) {
+            // We're in trouble. Missing RSA or Blowfish.
+            nsae.printStackTrace();
+            throw new RuntimeException("Missing Crypto algorithm");
+        } catch (NoSuchPaddingException nspe) {
+            // again, we're in trouble. Missing padding.
+            nspe.printStackTrace();
+            throw new RuntimeException("Missing Crypto algorithm");
+        } catch (BadPaddingException bpe) {
+            // Probably a bad key.
+            bpe.printStackTrace();
+            throw new InvalidKeyException("Missing Crypto algorithm");
+        } catch (IllegalBlockSizeException ibse) {
+            // Probably a bad key.
+            ibse.printStackTrace();
+            throw new InvalidKeyException("Could not encrypt");
+        } catch (InvalidAlgorithmParameterException iape) {
+            iape.printStackTrace();
+        }
+
+        // Create a database object with the encrypted info.
+        creditCardDBO = new CreditCardDBO(accountID, encryptedSessionKey, encryptedCCNumber);
+
+        // Store the encrypted credit card in the database
+        mDBOperations.store(creditCardDBO);
+        CreditCard creditCard = new CreditCard(accountID, creditCardNumber);
+        return creditCard;
     }
 
 

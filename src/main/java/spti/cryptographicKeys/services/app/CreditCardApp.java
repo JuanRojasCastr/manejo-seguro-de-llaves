@@ -21,7 +21,7 @@ public class CreditCardApp {
     private static final String KEYSTORE = "tarjetas.ks";
 
     // Password for the keystore
-    private static final char[] PASSWORD = {'2','0','9'};
+    private static final char[] PASSWORD = {'s','c','o','s','c','o'};
 
 
     public void ingresarCard(String numeroDocumento, String numbercard) throws Exception{
@@ -45,9 +45,9 @@ public class CreditCardApp {
         String ksType = KeyStore.getDefaultType();
         KeyStore ks = KeyStore.getInstance(ksType);
         FileInputStream fis = new FileInputStream(KEYSTORE);
-//        ks.load(fis,PASSWORD);
+        ks.load(fis,PASSWORD);
         fis.close();
-//        PrivateKey privateKey = (PrivateKey)ks.getKey("mykey",PASSWORD);
+        PrivateKey privateKey = (PrivateKey)ks.getKey("mykey",PASSWORD);
 
         // Load the database properties file.
         Properties properties = new Properties();
@@ -59,7 +59,7 @@ public class CreditCardApp {
         CreditCardFactory factory = new CreditCardFactory(properties);
 
         // Get all the credit cards.
-        Iterator iterator = factory.findAllCreditCards();
+        Iterator iterator = factory.findAllCreditCards(privateKey);
 
         // Display all credit cards.
         while(iterator.hasNext()) {

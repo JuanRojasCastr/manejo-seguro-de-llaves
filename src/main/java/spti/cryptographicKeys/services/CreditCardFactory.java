@@ -16,7 +16,6 @@ public class CreditCardFactory {
 
     // Key to use to encrypt all new credit cards
     private PublicKey mPublicKey;
-    private PrivateKey mPrivateKey;
 
     // default key and init vector for CBC mode encryption
     private static final String initVector = "encryptionInitVector";
@@ -35,20 +34,14 @@ public class CreditCardFactory {
         System.out.println(certFilename);
         try {
             // Get the public key
-//            FileInputStream fis = new FileInputStream(certFilename);
-//            java.security.cert.CertificateFactory cf =
-//                    java.security.cert.CertificateFactory.getInstance
-//                            ("X.509");
-//            java.security.cert.Certificate cert =
-//                    cf.generateCertificate(fis);
-//            fis.close();
-//            mPublicKey = cert.getPublicKey();
-                KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-                keyPairGenerator.initialize(1024);
-                KeyPair keyPair = keyPairGenerator.generateKeyPair();
-
-                mPublicKey = keyPair.getPublic();
-                mPrivateKey = keyPair.getPrivate();
+            FileInputStream fis = new FileInputStream(certFilename);
+            java.security.cert.CertificateFactory cf =
+                    java.security.cert.CertificateFactory.getInstance
+                            ("X.509");
+            java.security.cert.Certificate cert =
+                    cf.generateCertificate(fis);
+            fis.close();
+            mPublicKey = cert.getPublicKey();
         } catch (Exception e) {
             e.printStackTrace();
             throw new IOException(e.getMessage());
@@ -191,7 +184,7 @@ public class CreditCardFactory {
      *	Requires the private key.
      */
     public CreditCard findCreditCard
-    (long accountID)
+    (long accountID, PrivateKey privateKey)
             throws InvalidKeyException, IOException{
 
         String creditCardNumber = null;
@@ -203,7 +196,7 @@ public class CreditCardFactory {
             // Decrypt the encrypted session key.
             Cipher asymmetricCipher = Cipher.getInstance
                     ("RSA/ECB/PKCS1Padding");
-            asymmetricCipher.init(Cipher.DECRYPT_MODE, mPrivateKey);
+            asymmetricCipher.init(Cipher.DECRYPT_MODE, privateKey);
             byte[] sessionKeyBytes = asymmetricCipher.doFinal
                     (creditCardDBO.getEncryptedSessionKey());
 
@@ -241,72 +234,18 @@ public class CreditCardFactory {
                 (accountID, creditCardNumber);
         return creditCard;
     }
-    public CreditCard findCreditCard2
-            (long accountID, PrivateKey privateKey)
-            throws InvalidKeyException, IOException{
-
-        String creditCardNumber = null;
-
-        // Load the encrypted credit card info.
-        CreditCardDBO creditCardDBO =
-                mDBOperations.loadCreditCardDBO(accountID);
-        try {
-            // Decrypt the encrypted session key.
-            Cipher asymmetricCipher = Cipher.getInstance
-                    ("RSA/ECB/PKCS1Padding");
-            asymmetricCipher.init(Cipher.DECRYPT_MODE, privateKey);
-            byte[] sessionKeyBytes = asymmetricCipher.doFinal
-                    (creditCardDBO.getEncryptedSessionKey());
-
-            // Decrypt the credit card number with the session key.
-            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
-            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
-
-            Cipher symmetricCipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-            symmetricCipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
-            byte[] ccNumberBytes = symmetricCipher.doFinal
-                    (creditCardDBO.getEncryptedCCNumber());
-
-            creditCardNumber = new String(ccNumberBytes, "UTF8");
-
-            // Need to catch a large number of possible exceptions:
-        } catch (NoSuchAlgorithmException nsae) {
-            // Missing an algorithm.
-            nsae.printStackTrace();
-            throw new RuntimeException("Missing crypto algorithm");
-        } catch (NoSuchPaddingException nspe) {
-            // again, we're in trouble. Missing padding.
-            nspe.printStackTrace();
-            throw new RuntimeException("Missing Crypto algorithm");
-        } catch (BadPaddingException bpe) {
-            // This means the data is probably bad.
-            bpe.printStackTrace();
-            throw new InvalidKeyException("Could not decrypt");
-        } catch (IllegalBlockSizeException ibse) {
-            // Probably a bad key.
-            ibse.printStackTrace();
-            throw new InvalidKeyException("Could not decrypt");
-        } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        }
-
-        CreditCard creditCard = new CreditCard
-                (accountID, creditCardNumber);
-        return creditCard;
-    }
 
     /**
      *	Finds all credit cards and returns them as an Iterator.
      */
-    public Iterator findAllCreditCards()
+    public Iterator findAllCreditCards(PrivateKey privateKey)
             throws InvalidKeyException, IOException {
 
         long[] accountIDs = mDBOperations.getAllCreditCardAccountIDs();
         Vector creditCards = new Vector();
         for (int i=0; i<accountIDs.length; i++) {
-            creditCards.add(findCreditCard(accountIDs[i]));
+            creditCards.add(findCreditCard(accountIDs[i], privateKey));
         }
         return creditCards.iterator();
     }
-
 }

@@ -16,6 +16,7 @@ public class CreditCardFactory {
 
     // Key to use to encrypt all new credit cards
     private PublicKey mPublicKey;
+    private PrivateKey mPrivateKey;
 
     // default key and init vector for CBC mode encryption
     private static final String initVector = "encryptionInitVector";
@@ -34,14 +35,20 @@ public class CreditCardFactory {
         System.out.println(certFilename);
         try {
             // Get the public key
-            FileInputStream fis = new FileInputStream(certFilename);
-            java.security.cert.CertificateFactory cf =
-                    java.security.cert.CertificateFactory.getInstance
-                            ("X.509");
-            java.security.cert.Certificate cert =
-                    cf.generateCertificate(fis);
-            fis.close();
-            mPublicKey = cert.getPublicKey();
+//            FileInputStream fis = new FileInputStream(certFilename);
+//            java.security.cert.CertificateFactory cf =
+//                    java.security.cert.CertificateFactory.getInstance
+//                            ("X.509");
+//            java.security.cert.Certificate cert =
+//                    cf.generateCertificate(fis);
+//            fis.close();
+//            mPublicKey = cert.getPublicKey();
+                KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+                keyPairGenerator.initialize(1024);
+                KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+                mPublicKey = keyPair.getPublic();
+                mPrivateKey = keyPair.getPrivate();
         } catch (Exception e) {
             e.printStackTrace();
             throw new IOException(e.getMessage());
@@ -184,7 +191,7 @@ public class CreditCardFactory {
      *	Requires the private key.
      */
     public CreditCard findCreditCard
-    (long accountID, PrivateKey privateKey)
+    (long accountID)
             throws InvalidKeyException, IOException{
 
         String creditCardNumber = null;
@@ -196,7 +203,7 @@ public class CreditCardFactory {
             // Decrypt the encrypted session key.
             Cipher asymmetricCipher = Cipher.getInstance
                     ("RSA/ECB/PKCS1Padding");
-            asymmetricCipher.init(Cipher.DECRYPT_MODE, privateKey);
+            asymmetricCipher.init(Cipher.DECRYPT_MODE, mPrivateKey);
             byte[] sessionKeyBytes = asymmetricCipher.doFinal
                     (creditCardDBO.getEncryptedSessionKey());
 
@@ -238,13 +245,13 @@ public class CreditCardFactory {
     /**
      *	Finds all credit cards and returns them as an Iterator.
      */
-    public Iterator findAllCreditCards(PrivateKey privateKey)
+    public Iterator findAllCreditCards()
             throws InvalidKeyException, IOException {
 
         long[] accountIDs = mDBOperations.getAllCreditCardAccountIDs();
         Vector creditCards = new Vector();
         for (int i=0; i<accountIDs.length; i++) {
-            creditCards.add(findCreditCard(accountIDs[i], privateKey));
+            creditCards.add(findCreditCard(accountIDs[i]));
         }
         return creditCards.iterator();
     }

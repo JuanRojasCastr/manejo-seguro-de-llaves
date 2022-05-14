@@ -5,6 +5,8 @@ import spti.cryptographicKeys.entities.CreditCard;
 import spti.cryptographicKeys.services.CreditCardFactory;
 
 import java.io.*;
+import java.security.KeyStore;
+import java.security.PrivateKey;
 import java.util.*;
 //ANTIGUA CLASE CREATE-TEST
 /**
@@ -12,8 +14,15 @@ import java.util.*;
  *	database, encrypted.
  */
 public class CreditCardApp {
-
+    // Properties file for the database and public key information
     private static final String PROPERTIES_FILE = "config.properties";
+
+    // Keystore that holds the private key
+    private static final String KEYSTORE = "tarjetas.ks";
+
+    // Password for the keystore
+    private static final char[] PASSWORD = {'2','0','9'};
+
 
     public void ingresarCard(String numeroDocumento, String numbercard) throws Exception{
 
@@ -31,6 +40,36 @@ public class CreditCardApp {
     }
 
     public static void main(String[] args) throws Exception {
+
+        // Load the keystore to retrieve the private key.
+        String ksType = KeyStore.getDefaultType();
+        KeyStore ks = KeyStore.getInstance(ksType);
+        FileInputStream fis = new FileInputStream(KEYSTORE);
+//        ks.load(fis,PASSWORD);
+        fis.close();
+//        PrivateKey privateKey = (PrivateKey)ks.getKey("mykey",PASSWORD);
+
+        // Load the database properties file.
+        Properties properties = new Properties();
+        fis = new FileInputStream(PROPERTIES_FILE);
+        properties.load(fis);
+        fis.close();
+
+        // Create a credit card factory with the given properties.
+        CreditCardFactory factory = new CreditCardFactory(properties);
+
+        // Get all the credit cards.
+        Iterator iterator = factory.findAllCreditCards();
+
+        // Display all credit cards.
+        while(iterator.hasNext()) {
+            CreditCard creditCard = (CreditCard)iterator.next();
+            System.out.println("\nAccount ID: "+creditCard.getAccountID());
+            System.out.println("CC Number: "+creditCard.getCreditCardNumber());
+        }
+    }
+
+    public static void main2(String[] args) throws Exception {
         args = new String[2];
         args[0] = "3012651";
         args[1] = "5316917325555196";

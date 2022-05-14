@@ -21,7 +21,7 @@ public class CreditCardApp {
     private static final String KEYSTORE = "tarjetas.ks";
 
     // Password for the keystore
-    private static final char[] PASSWORD = { 'd', 'c', 'c', 'i', 'a', 'd', 'c', 'c', 'i', 'a' };
+    private static final char[] PASSWORD = { 's', 'c', 'o', 's', 'c', 'o' };
 
     public void ingresarCard(String numeroDocumento, String numbercard) throws Exception {
 

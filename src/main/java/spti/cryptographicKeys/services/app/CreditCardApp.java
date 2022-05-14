@@ -1,6 +1,5 @@
 package spti.cryptographicKeys.services.app;
 
-
 import spti.cryptographicKeys.entities.CreditCard;
 import spti.cryptographicKeys.services.CreditCardFactory;
 
@@ -8,10 +7,11 @@ import java.io.*;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.util.*;
+
 //ANTIGUA CLASE CREATE-TEST
 /**
- *	Creates credit cards and puts them in the
- *	database, encrypted.
+ * Creates credit cards and puts them in the
+ * database, encrypted.
  */
 public class CreditCardApp {
     // Properties file for the database and public key information
@@ -21,10 +21,9 @@ public class CreditCardApp {
     private static final String KEYSTORE = "tarjetas.ks";
 
     // Password for the keystore
-    private static final char[] PASSWORD = {'s','c','o','s','c','o'};
+    private static final char[] PASSWORD = { 'd', 'c', 'c', 'i', 'a', 'd', 'c', 'c', 'i', 'a' };
 
-
-    public void ingresarCard(String numeroDocumento, String numbercard) throws Exception{
+    public void ingresarCard(String numeroDocumento, String numbercard) throws Exception {
 
         long id = Long.parseLong(numeroDocumento);
 
@@ -36,18 +35,20 @@ public class CreditCardApp {
 
         // Create the credit card
         CreditCardFactory factory = new CreditCardFactory(properties);
-        CreditCard creditCard = factory.createCreditCard(id,numbercard);
+        CreditCard creditCard = factory.createCreditCard(id, numbercard);
     }
 
-    public static void main(String[] args) throws Exception {
+    public List<CreditCard> getAllCards() throws Exception {
+
+        List<CreditCard> cardList = new ArrayList<>();
 
         // Load the keystore to retrieve the private key.
         String ksType = KeyStore.getDefaultType();
         KeyStore ks = KeyStore.getInstance(ksType);
         FileInputStream fis = new FileInputStream(KEYSTORE);
-        ks.load(fis,PASSWORD);
+        ks.load(fis, PASSWORD);
         fis.close();
-        PrivateKey privateKey = (PrivateKey)ks.getKey("mykey",PASSWORD);
+        PrivateKey privateKey = (PrivateKey) ks.getKey("mykey", PASSWORD);
 
         // Load the database properties file.
         Properties properties = new Properties();
@@ -62,10 +63,41 @@ public class CreditCardApp {
         Iterator iterator = factory.findAllCreditCards(privateKey);
 
         // Display all credit cards.
-        while(iterator.hasNext()) {
-            CreditCard creditCard = (CreditCard)iterator.next();
-            System.out.println("\nAccount ID: "+creditCard.getAccountID());
-            System.out.println("CC Number: "+creditCard.getCreditCardNumber());
+        while (iterator.hasNext()) {
+            CreditCard creditCard = (CreditCard) iterator.next();
+            cardList.add(creditCard);
+        }
+
+        return cardList;
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        // Load the keystore to retrieve the private key.
+        String ksType = KeyStore.getDefaultType();
+        KeyStore ks = KeyStore.getInstance(ksType);
+        FileInputStream fis = new FileInputStream(KEYSTORE);
+        ks.load(fis, PASSWORD);
+        fis.close();
+        PrivateKey privateKey = (PrivateKey) ks.getKey("mykey", PASSWORD);
+
+        // Load the database properties file.
+        Properties properties = new Properties();
+        fis = new FileInputStream(PROPERTIES_FILE);
+        properties.load(fis);
+        fis.close();
+
+        // Create a credit card factory with the given properties.
+        CreditCardFactory factory = new CreditCardFactory(properties);
+
+        // Get all the credit cards.
+        Iterator iterator = factory.findAllCreditCards(privateKey);
+
+        // Display all credit cards.
+        while (iterator.hasNext()) {
+            CreditCard creditCard = (CreditCard) iterator.next();
+            System.out.println("\nAccount ID: " + creditCard.getAccountID());
+            System.out.println("CC Number: " + creditCard.getCreditCardNumber());
         }
     }
 
@@ -76,7 +108,7 @@ public class CreditCardApp {
 
         if (args.length != 2) {
             System.out.println("Usage: java CreateTest ID CreditCardNumber");
-            //System.exit(1);
+            // System.exit(1);
         }
 
         long id = Long.parseLong(args[0]);
@@ -90,6 +122,6 @@ public class CreditCardApp {
 
         // Create the credit card
         CreditCardFactory factory = new CreditCardFactory(properties);
-        CreditCard creditCard = factory.createCreditCard(id,ccNumber);
+        CreditCard creditCard = factory.createCreditCard(id, ccNumber);
     }
 }

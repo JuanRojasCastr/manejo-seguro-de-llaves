@@ -37,12 +37,15 @@ public class cardBean {
     public List<CreditCard> cardList = new ArrayList<>();
 
     public cardBean() {
-        cardList.add(new CreditCard(1, "0000 7262", "01/27"));
-        cardList.add(new CreditCard(1, "0000 0712", "02/23"));
+        try {
+            cardList = creditCardApp.getAllCards();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public Boolean ingresarCard() throws Exception {
-        // creditCardApp.ingresarCard(numeroDocumento, numbercard);
+        creditCardApp.ingresarCard(numeroDocumento, numbercard);
         return false;
     }
 
